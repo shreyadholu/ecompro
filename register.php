@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             min-height: 100vh;
             margin: 0;
             font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            background: #d9c2ba;
         }
         .register-box {
             background: #fff;
@@ -78,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             font-size: 14px;
         }
         button {
-            background: #2575fc;
+            background: #9c8481;
             color: #fff;
             padding: 10px 15px;
             border: none;
@@ -87,10 +87,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             font-size: 16px;
         }
         button:hover {
-            background: #0056b3;
+            background: #4b3b42;
         }
         a {
-            color: #2575fc;
+            color: #4b3b42;
             text-decoration: none;
         }
         a:hover {
@@ -118,7 +118,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             <button type="submit">Register</button>
         </form>
-        <p>Already have an account? <a href="login.php">Login here</a>.</p>
+        <p><b>Already have an account?</b> <a href="login.php">Login here</a>.</p>
     </div>
 </body>
 </html>
