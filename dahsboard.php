@@ -54,17 +54,17 @@
             justify-content: space-around;
             align-items: center;
             flex-wrap: wrap;
-            padding: 20px;
-            margin: 20px auto;
+            padding: 10px;
+            margin: 10px auto;
             background-color: white;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            max-width: 1200px;
+            max-width: 1000px;
         }
         .catalog-box {
-            width: 200px;
-            height: 200px;
-            margin: 10px;
+            width: 150px;
+            height: 150px;
+            margin: 8px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -74,7 +74,7 @@
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             color: white;
-            font-size: 20px;
+            font-size: 16px;
             font-weight: bold;
             text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
             position: relative;
@@ -102,6 +102,43 @@
             position: relative;
             z-index: 1;
         }
+
+        .slideshow-container {
+            position: relative;
+            width: 100%;
+            margin: 40px 0;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .slides {
+            display: none;
+        }
+        .slides img {
+            width: 100%;
+            border-radius: 0; /* Remove border radius for full-width */
+        }
+        .slideshow-container .prev, .slideshow-container .next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 50%;
+            z-index: 10;
+        }
+        .slideshow-container .prev {
+            left: 10px;
+        }
+        .slideshow-container .next {
+            right: 10px;
+        }
+        .slideshow-container .prev:hover, .slideshow-container .next:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
     </style>
 </head>
 <body>
@@ -115,24 +152,65 @@
         </div>
     </div>
 
-
     <div class="catalog-container">
-        <a href="tops.html" target="_blank" class="catalog-box" style="background-image: url('images/tops.jpg');">
+        <a href="tops.php" target="_blank" class="catalog-box" style="background-image: url('images/tops.jpg');">
             <span>Tops</span>
         </a>
-        <a href="bottomwear.html" target="_blank" class="catalog-box" style="background-image: url('images/bottomwear.jpg');">
+        <a href="bottomwear.php" target="_blank" class="catalog-box" style="background-image: url('images/bottomwear.jpg');">
             <span>Bottomwear</span>
         </a>
-        <a href="dresses.html" target="_blank" class="catalog-box" style="background-image: url('images/dresses.jpg');">
+        <a href="dresses.php" target="_blank" class="catalog-box" style="background-image: url('images/dresses.jpg');">
             <span>Dresses</span>
         </a>
-        <a href="bags.html" target="_blank" class="catalog-box" style="background-image: url('images/bags.jpg');">
+        <a href="bags.php" target="_blank" class="catalog-box" style="background-image: url('images/bags.jpg');">
             <span>Bags and Clutches</span>
         </a>
-        <a href="footwear.html" target="_blank" class="catalog-box" style="background-image: url('images/footwear.jpg');">
+        <a href="footwear.php" target="_blank" class="catalog-box" style="background-image: url('images/footwear.jpg');">
             <span>Footwear</span>
         </a>
     </div>
 
+    <div class="slideshow-container">
+        <div class="slides">
+            <img src="images/slide1.jpg" alt="Slide 1">
+        </div>
+        <div class="slides">
+            <img src="images/slide2.jpg" alt="Slide 2">
+        </div>
+        <div class="slides">
+            <img src="images/slide3.jpg" alt="Slide 3">
+        </div>
+        <div class="slides">
+            <img src="images/slide4.jpg" alt="Slide 4">
+        </div>
+        <div class="slides">
+            <img src="images/slide5.jpg" alt="Slide 5">
+        </div>
+        <button class="prev" onclick="changeSlide(-1)">&#10094;</button>
+        <button class="next" onclick="changeSlide(1)">&#10095;</button>
+    </div>
+
+    <script>
+        let slideIndex = 0;
+        showSlides();
+
+        function showSlides() {
+            let slides = document.querySelectorAll('.slides');
+            slides.forEach(slide => slide.style.display = 'none');
+            slideIndex++;
+            if (slideIndex > slides.length) slideIndex = 1;
+            slides[slideIndex - 1].style.display = 'block';
+            setTimeout(showSlides, 3000); // Change image every 3 seconds
+        }
+
+        function changeSlide(n) {
+            let slides = document.querySelectorAll('.slides');
+            slides.forEach(slide => slide.style.display = 'none');
+            slideIndex += n;
+            if (slideIndex > slides.length) slideIndex = 1;
+            if (slideIndex < 1) slideIndex = slides.length;
+            slides[slideIndex - 1].style.display = 'block';
+        }
+    </script>
 </body>
 </html>

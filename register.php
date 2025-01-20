@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt = $conn->prepare($query);
         $stmt->bind_param("sss", $username, $hashedPassword, $email);
         if ($stmt->execute()) {
-            header('Location: dashboard.php');
+            header('Location: dahsboard.php');
             exit();
         } else {
             $error = "Error registering user.";
