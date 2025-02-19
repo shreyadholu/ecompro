@@ -1,12 +1,7 @@
 <?php
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
-
-require 'vendor/autoload.php'; // Ensure PHPMailer is installed using Composer
+include 'db.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    include 'db.php';
-
     $email = $_POST['email'];
 
     // Check if the email exists in the database
@@ -39,47 +34,51 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt->bind_param("ss", $hashedPassword, $email);
         $stmt->execute();
 
-        // Send the new password via PHPMailer
-        $mail = new PHPMailer(true);
-        try {
-            // Mail server settings
-            $mail->isSMTP();
-            $mail->Host = 'smtp.your-email-provider.com'; // e.g., smtp.gmail.com
-            $mail->SMTPAuth = true;
-            $mail->Username = 'your-email@example.com'; // Your email
-            $mail->Password = 'your-email-password'; // Your email password or app password
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-            $mail->Port = 587;
+        // Send the new password via email using the mail() function
+        $to = $email;
+        $subject = "Your New Password";
+        $message = "
+        <html>
+        <head>
+            <title>Your New Password</title>
+        </head>
+        <body style='font-family: Arial, sans-serif; background: #d9c2ba; padding: 20px;'>
+            <div style='max-width: 600px; margin: 0 auto; background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);'>
+                <h1 style='color: #333;'>Your New Password</h1>
+                <p>Dear User,</p>
+                <p>Your new password is: <strong style='color: #4b3b42;'>$newPassword</strong></p>
+                <p>Please log in using this password and change it for better security.</p>
+                <p style='margin-top: 20px; font-size: 14px; color: #555;'>Regards,<br>Your Team</p>
+            </div>
+        </body>
+        </html>
+        ";
 
-            // Email settings
-            $mail->setFrom('your-email@example.com', 'Your Name');
-            $mail->addAddress($email);
-            $mail->isHTML(true);
-            $mail->Subject = "Your New Password";
-            $mail->Body = "
-            <html>
-            <head>
-                <title>Your New Password</title>
-            </head>
-            <body style='font-family: Arial, sans-serif; background: #d9c2ba; padding: 20px;'>
-                <div style='max-width: 600px; margin: 0 auto; background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);'>
-                    <h1 style='color: #333;'>Your New Password</h1>
-                    <p>Dear User,</p>
-                    <p>Your new password is: <strong style='color: #4b3b42;'>$newPassword</strong></p>
-                    <p>Please log in using this password and change it for better security.</p>
-                    <p style='margin-top: 20px; font-size: 14px; color: #555;'>Regards,<br>Your Team</p>
-                </div>
-            </body>
-            </html>
-            ";
+        // Headers to specify HTML content and proper encoding
+        $headers = "MIME-Version: 1.0" . "\r\n";
+        $headers .= "Content-Type: text/html; charset=UTF-8" . "\r\n";
+        $headers .= "From: no-reply@yourdomain.com" . "\r\n";
 
-            $mail->send();
-            echo "<p>Email sent successfully with your new password.</p>";
-        } catch (Exception $e) {
-            echo "<p>Failed to send email. Error: {$mail->ErrorInfo}</p>";
+        // Attempt to send the email
+        if (mail($to, $subject, $message, $headers)) {
+            // Show success message
+            echo "<script>
+                    alert('Email sent successfully with your new password.');
+                    window.location.href = 'login.php'; // Redirect to login page
+                  </script>";
+        } else {
+            // Show error message
+            echo "<script>
+                    alert('Failed to send email. Please try again later.');
+                    window.location.href = 'forgot_password.php'; // Stay on the forgot password page
+                  </script>";
         }
     } else {
-        echo "<p>No account found with that email address.</p>";
+        // Show error if email is not found in the database
+        echo "<script>
+                alert('No account found with that email address.');
+                window.location.href = 'forgot_password.php'; // Stay on the forgot password page
+              </script>";
     }
 }
 ?>

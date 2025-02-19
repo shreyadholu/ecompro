@@ -8,7 +8,7 @@
         body {
             margin: 0;
             font-family: Arial, sans-serif;
-            background-color: #d9c2ba; /* Light beige */
+            background-color: white; 
         }
         .navbar {
             display: flex;
@@ -49,64 +49,10 @@
             font-size: 16px;
         }
 
-        .catalog-container {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            flex-wrap: wrap;
-            padding: 10px;
-            margin: 10px auto;
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            max-width: 1000px;
-        }
-        .catalog-box {
-            width: 150px;
-            height: 150px;
-            margin: 8px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            color: white;
-            font-size: 16px;
-            font-weight: bold;
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-            position: relative;
-            overflow: hidden;
-            cursor: pointer;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            text-decoration: none; /* Remove underline */
-        }
-        .catalog-box:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        .catalog-box::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.4);
-            border-radius: 8px;
-        }
-        .catalog-box span {
-            position: relative;
-            z-index: 1;
-        }
-
         .slideshow-container {
             position: relative;
             width: 100%;
-            margin: 40px 0;
+            margin: 10px 0;
             overflow: hidden;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -152,23 +98,6 @@
         </div>
     </div>
 
-    <div class="catalog-container">
-        <a href="tops.php" target="_blank" class="catalog-box" style="background-image: url('images/tops.jpg');">
-            <span>Tops</span>
-        </a>
-        <a href="bottomwear.php" target="_blank" class="catalog-box" style="background-image: url('images/bottomwear.jpg');">
-            <span>Bottomwear</span>
-        </a>
-        <a href="dresses.php" target="_blank" class="catalog-box" style="background-image: url('images/dresses.jpg');">
-            <span>Dresses</span>
-        </a>
-        <a href="bags.php" target="_blank" class="catalog-box" style="background-image: url('images/bags.jpg');">
-            <span>Bags and Clutches</span>
-        </a>
-        <a href="footwear.php" target="_blank" class="catalog-box" style="background-image: url('images/footwear.jpg');">
-            <span>Footwear</span>
-        </a>
-    </div>
 
     <div class="slideshow-container">
         <div class="slides">
