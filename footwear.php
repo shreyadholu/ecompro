@@ -1,10 +1,15 @@
 <?php
 $products = [
-    ["name" => "Little Black Dress", "price" => "₹799", "image" => "images/blackdress.jpg"],
-    ["name" => "Red Wrap Dress", "price" => "₹1299", "image" => "images/wrapdress.jpg"],
-    ["name" => "Floral Midi Dress", "price" => "₹1299", "image" => "images/midi.jpg"],
-    ["name" => "Slip Dress", "price" => "₹1299", "image" => "images/slipdress.jpg"],
-    ["name" => "White Dress", "price" => "₹1299", "image" => "images/whitedress.jpg"]
+    ["name" => "White Sneakers", "price" => "₹799", "image" => "images/whitesneakers.jpg"],
+    ["name" => "Neutral Ballets", "price" => "₹1299", "image" => "images/neutralballets.jpg"],
+    ["name" => "Sleek Loafers", "price" => "₹1299", "image" => "images/sleekloafers.jpg"],
+    ["name" => "Black Ankle Boots", "price" => "₹1299", "image" => "images/blackankleboots.jpg"],
+    ["name" => "Comfy Sandals", "price" => "₹1299", "image" => "images/comfysandals.jpg"],
+    ["name" => "Elegant Black Heels", "price" => "₹1399", "image" => "images/blackheels.jpg"],
+    ["name" => "Strappy Nude Heels", "price" => "₹899", "image" => "images/nudeheels.jpg"],
+    ["name" => "Beige Slides", "price" => "₹1299", "image" => "images/beigeslides.jpg"],
+    ["name" => "Mint Green Slides", "price" => "₹1099", "image" => "images/mintgreenslides.jpg"],
+    ["name" => "Workout Shoes", "price" => "₹799", "image" => "images/workoutshoes.jpg"]
 ]?>
 
 <!DOCTYPE html>
@@ -12,7 +17,7 @@ $products = [
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catalog - Tops</title>
+    <title>Catalog - Footwear</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
     <style>
@@ -111,7 +116,7 @@ $products = [
         </div>
     </div>
     <div class="container catalog-container">
-        <h2 class="text-center mb-4">Dresses</h2>
+        <h2 class="text-center mb-4">Footwear</h2>
         <div class="row g-4">
             <?php foreach ($products as $product): ?>
                 <div class="col-md-3">
