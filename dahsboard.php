@@ -111,7 +111,6 @@ $categories = [
 <div class="navbar">
     <div class="logo">Closetly</div>
     <div class="nav-items">
-        <button onclick="window.location.href='index.php'">Home</button>
         <button onclick="window.location.href='shop.php'">Shop</button>
         <button onclick="window.location.href='contact.php'">Contact</button>
         <form action="search.php" method="GET" class="d-flex">
