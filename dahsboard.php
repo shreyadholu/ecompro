@@ -114,7 +114,9 @@ $categories = [
         <button onclick="window.location.href='index.php'">Home</button>
         <button onclick="window.location.href='shop.php'">Shop</button>
         <button onclick="window.location.href='contact.php'">Contact</button>
-        <input type="text" class="search-bar" placeholder="Search...">
+        <form action="search.php" method="GET" class="d-flex">
+            <input class="form-control" type="search" name="query" placeholder="Search..." required>
+        </form>
     </div>
 </div>
 
