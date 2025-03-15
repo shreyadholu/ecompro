@@ -3,7 +3,7 @@ $categories = [
     "Tops" => ["image" => "images/white_tshirt.jpg", "link" => "tops_page.php"],
     "Bottomwear" => ["image" => "images/widelegjeans.jpeg", "link" => "bottomwear_page.php"],
     "Dresses" => ["image" => "images/slipdress.jpg", "link" => "dresses.php"],
-    "Footwear" => ["image" => "images/blackheels.jpg", "link" => "footwear.php"],
+    "Footwear" => ["image" => "images/blackheels.jpg", "link" => "blackankles.php"],
     "Bags & Clutches" => ["image" => "images/blackclutch.jpg", "link" => "bags.php"]
 ];
 ?>
