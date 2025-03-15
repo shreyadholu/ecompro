@@ -36,14 +36,17 @@ if ($result->num_rows > 0) {
     </style>
 </head>
 <body>
-<div class="nav-items">
-    <button onclick="window.location.href='dahsboard.php'">Home</button>
-    <button>Shop</button>
-    <button>Contact</button>
-    <form action="search.php" method="GET" class="d-flex">
-        <input class="form-control" type="search" name="query" placeholder="Search..." required>
-    </form>
-</div>
+<div class="navbar">
+        <div class="logo">Closetly</div>
+        <div class="nav-items">
+            <button onclick="window.location.href='dahsboard.php'">Home</button>
+            <button>Shop</button>
+            <button>Contact</button>
+            <form action="search.php" method="GET" class="d-flex">
+                <input class="form-control" type="search" name="query" placeholder="Search..." required>
+            </form>
+        </div>
+    </div>
 
     <div class="container catalog-container">
         <h2 class="text-center mb-4">Tops</h2>
