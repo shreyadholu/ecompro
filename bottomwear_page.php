@@ -56,9 +56,15 @@ if ($result->num_rows > 0) {
                         <img src="<?php echo $btmw['image']; ?>" alt="<?php echo $btmw['name']; ?>">
                         <h5 class="mt-2"><?php echo $btmw['name']; ?></h5>
                         <p class="text-primary fw-bold">₹<?php echo $btmw['price']; ?></p>
-                        <button class="add-to-cart">
-                            <i class="bi bi-cart"></i> Add to Cart
-                        </button>
+                        <form action="cart_page.php" method="POST">
+                            <input type="hidden" name="id" value="<?php echo $btmw['id']; ?>">
+                            <input type="hidden" name="name" value="<?php echo $btmw['name']; ?>">
+                            <input type="hidden" name="price" value="<?php echo $btmw['price']; ?>">
+                            <input type="hidden" name="image" value="<?php echo $btmw['image']; ?>">
+                            <button type="submit" name="add_to_cart" class="add-to-cart">
+                                <i class="bi bi-cart"></i> Add to Cart
+                            </button>
+                        </form>
                     </div>
                 </div>
             <?php endforeach; ?>

@@ -33,38 +33,101 @@ if ($result->num_rows > 0) {
         .add-to-cart { margin-top: 10px; background-color: #c9c5b1; color: white; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 5px; border: none; border-radius: 8px; padding: 10px; transition: background-color 0.3s ease, transform 0.2s; }
         .add-to-cart:hover { background-color: #787569; transform: scale(1.05); }
         .add-to-cart i { font-size: 18px; }
+
+        /* Popup Dialog */
+        .cart-dialog {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            z-index: 1000;
+            text-align: center;
+        }
+        .cart-dialog button {
+            background-color: #787569;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .cart-dialog button:hover {
+            background-color: #5d5a4f;
+        }
     </style>
 </head>
 <body>
-<div class="navbar">
-        <div class="logo">Closetly</div>
-        <div class="nav-items">
-            <button onclick="window.location.href='dahsboard.php'">Home</button>
-            <button>Shop</button>
-            <button>Contact</button>
-            <form action="search.php" method="GET" class="d-flex">
-                <input class="form-control" type="search" name="query" placeholder="Search..." required>
-            </form>
-        </div>
-    </div>
 
-    <div class="container catalog-container">
-        <h2 class="text-center mb-4">Tops</h2>
-        <div class="row g-4">
-            <?php foreach ($topss as $tops): ?>
-                <div class="col-md-3">
-                    <div class="product-card">
-                        <img src="<?php echo $tops['image']; ?>" alt="<?php echo $tops['name']; ?>">
-                        <h5 class="mt-2"><?php echo $tops['name']; ?></h5>
-                        <p class="text-primary fw-bold">₹<?php echo $tops['price']; ?></p>
-                        <button class="add-to-cart">
+<div class="navbar">
+    <div class="logo">Closetly</div>
+    <div class="nav-items">
+        <button onclick="window.location.href='dashboard.php'">Home</button>
+        <button>Shop</button>
+        <button>Contact</button>
+        <form action="search.php" method="GET" class="d-flex">
+            <input class="form-control" type="search" name="query" placeholder="Search..." required>
+        </form>
+    </div>
+</div>
+
+<div class="container catalog-container">
+    <h2 class="text-center mb-4">Tops</h2>
+    <div class="row g-4">
+        <?php foreach ($topss as $tops): ?>
+            <div class="col-md-3">
+                <div class="product-card">
+                    <img src="<?php echo $tops['image']; ?>" alt="<?php echo $tops['name']; ?>">
+                    <h5 class="mt-2"><?php echo $tops['name']; ?></h5>
+                    <p class="text-primary fw-bold">₹<?php echo $tops['price']; ?></p>
+                    <form onsubmit="addToCart(event, this)">
+                        <input type="hidden" name="id" value="<?php echo $tops['id']; ?>">
+                        <input type="hidden" name="name" value="<?php echo $tops['name']; ?>">
+                        <input type="hidden" name="price" value="<?php echo $tops['price']; ?>">
+                        <input type="hidden" name="image" value="<?php echo $tops['image']; ?>">
+                        <button type="submit" class="add-to-cart">
                             <i class="bi bi-cart"></i> Add to Cart
                         </button>
-                    </div>
+                    </form>
                 </div>
-            <?php endforeach; ?>
-        </div>
+            </div>
+        <?php endforeach; ?>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</div>
+
+<!-- Dialog Box -->
+<div id="cartDialog" class="cart-dialog">
+    <p>Item added to the cart successfully!</p>
+    <button onclick="closeDialog()">OK</button>
+</div>
+
+<script>
+    function addToCart(event, form) {
+        event.preventDefault(); // Prevent form from reloading the page
+        let formData = new FormData(form);
+
+        fetch('cart_database.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('cartDialog').style.display = 'block'; // Show popup
+        })
+        .catch(error => console.error('Error:', error));
+    }
+
+    function closeDialog() {
+        document.getElementById('cartDialog').style.display = 'none'; // Hide popup
+    }
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>
