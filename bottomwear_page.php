@@ -1,7 +1,7 @@
 <?php
 require 'db.php'; // Include database connection
 
-$sql = "SELECT id, name, price, image FROM bottomwear";
+$sql = "SELECT id, name, price, image, product_id FROM bottomwear";
 $result = $conn->query($sql);
 $bottomwear = [];
 
@@ -40,7 +40,7 @@ if ($result->num_rows > 0) {
         <div class="logo">Closetly</div>
         <div class="nav-items">
             <button onclick="window.location.href='homepage.php'">Home</button>
-            <button>Shop</button>
+            <button>Cart</button>
             <button>Contact</button>
             <form action="search.php" method="GET" class="d-flex">
                 <input class="form-control" type="search" name="query" placeholder="Search..." required>

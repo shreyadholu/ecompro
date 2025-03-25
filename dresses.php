@@ -1,7 +1,7 @@
 <?php
 require 'db.php'; // Include database connection
 
-$sql = "SELECT id, name, price, image FROM dresses";
+$sql = "SELECT id, name, price, image, product_id FROM dresses";
 $result = $conn->query($sql);
 $dresses = [];
 
