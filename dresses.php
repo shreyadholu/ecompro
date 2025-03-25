@@ -39,7 +39,7 @@ if ($result->num_rows > 0) {
     <div class="navbar">
         <div class="logo">Closetly</div>
         <div class="nav-items">
-            <button onclick="window.location.href='dahsboard.php'">Home</button>
+            <button onclick="window.location.href='homepage.php'">Home</button>
             <button>Shop</button>
             <button>Contact</button>
             <form action="search.php" method="GET" class="d-flex">
