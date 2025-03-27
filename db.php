@@ -1,5 +1,6 @@
 <?php
-session_start();
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 $servername = "localhost"; // Change to your server
 $username = "root"; // Change to your database username
 $password = ""; // Change to your database password
