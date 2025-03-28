@@ -324,7 +324,7 @@ foreach ($cart_items as $item) {
                 <div class="total-price">
                     Total: ₹<?= number_format($total_price, 2); ?>
                 </div>
-                <button class="checkout-btn">
+                <button class="checkout-btn" onclick="window.location.href='checkout_page.php'">
                     Proceed to Checkout <i class="bi bi-arrow-right"></i>
                 </button>
             </div>
