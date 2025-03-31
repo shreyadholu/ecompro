@@ -1,11 +1,32 @@
 <?php
 session_start();
 require 'db.php';
+require 'vendor/autoload.php';
+use Razorpay\Api\Api;
 
-// Get cart total
-$cartQuery = "SELECT SUM(total_price) as total FROM cart";
+// Get cart total and items with their respective categories
+$cartQuery = "SELECT c.*, 
+    CASE 
+        WHEN t.name IS NOT NULL THEN t.name
+        WHEN b.name IS NOT NULL THEN b.name
+        WHEN d.name IS NOT NULL THEN d.name
+        WHEN f.name IS NOT NULL THEN f.name
+        WHEN bg.name IS NOT NULL THEN bg.name
+    END as product_name
+    FROM cart c 
+    LEFT JOIN topss t ON c.product_id = t.product_id
+    LEFT JOIN bottomwear b ON c.product_id = b.product_id
+    LEFT JOIN dresses d ON c.product_id = d.product_id
+    LEFT JOIN footwear f ON c.product_id = f.product_id
+    LEFT JOIN bags bg ON c.product_id = bg.product_id";
+
 $result = $conn->query($cartQuery);
-$total = $result->fetch_assoc()['total'];
+$cart_items = $result->fetch_all(MYSQLI_ASSOC);
+
+$total = 0;
+foreach ($cart_items as $item) {
+    $total += $item['total_price'];
+}
 
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -14,15 +35,93 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $address = $conn->real_escape_string($_POST['address']);
     $payment_method = $conn->real_escape_string($_POST['payment_method']);
     $order_date = date('Y-m-d H:i:s');
+    $delivery_date = date('Y-m-d', strtotime('+5 days')); // Estimated delivery in 5 days
 
-    $sql = "INSERT INTO orders (full_name, contact_number, shipping_address, payment_method, order_date, total_amount) 
-            VALUES ('$name', '$contact', '$address', '$payment_method', '$order_date', '$total')";
+    // Start transaction
+    $conn->begin_transaction();
 
-    if ($conn->query($sql)) {
-        // Clear cart after successful order
+    try {
+        // Insert order
+        $sql = "INSERT INTO orders (full_name, contact_number, shipping_address, payment_method, 
+                order_date, expected_delivery, total_amount) 
+                VALUES (?, ?, ?, ?, ?, ?, ?)";
+        
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("ssssssd", $name, $contact, $address, $payment_method, 
+                         $order_date, $delivery_date, $total);
+        $stmt->execute();
+        $order_id = $conn->insert_id;
+        // Insert order items with category information
+        $items_sql = "INSERT INTO order_items (order_id, product_id, product_name, 
+                     quantity, price, total_price, category) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        $items_stmt = $conn->prepare($items_sql);
+
+        foreach ($cart_items as $item) {
+            // Determine product category
+            $category = '';
+            if (strpos($item['product_id'], 'TOP') !== false) {
+                $category = 'Tops';
+            } elseif (strpos($item['product_id'], 'BTM') !== false) {
+                $category = 'Bottomwear';
+            } elseif (strpos($item['product_id'], 'DRS') !== false) {
+                $category = 'Dresses';
+            } elseif (strpos($item['product_id'], 'FTW') !== false) {
+                $category = 'Footwear';
+            } elseif (strpos($item['product_id'], 'BAG') !== false) {
+                $category = 'Bags';
+            }
+
+            $items_stmt->bind_param("iisidss", 
+                $order_id,
+                $item['product_id'],
+                $item['product_name'],
+                $item['quantity'],
+                $item['price'],
+                $item['total_price'],
+                $category
+            );
+            $items_stmt->execute();
+        }
+
+        // Clear cart
         $conn->query("DELETE FROM cart");
-        header("Location: order_confirmation.php?order_id=" . $conn->insert_id);
+
+        // Commit transaction
+        $conn->commit();
+
+        // Razorpay integration for netbanking
+        if ($payment_method === 'netbanking') {
+            $api = new Api('rzp_test_XCs0E3IXY05Ek0', 'your_secret_key_here');
+            // Fetch the secret key from an environment variable
+            $secretKey = getenv('RAZORPAY_SECRET_KEY');
+            if (!$secretKey) {
+                throw new Exception("Razorpay secret key is not set in the environment variables.");
+            }
+
+            $api = new Api('rzp_test_XCs0E3IXY05Ek0', $secretKey);            
+            $razorpayOrder = $api->order->create([
+                'receipt' => 'order_' . $order_id,
+                'amount' => $total * 100, // Amount in paise
+                'currency' => 'INR'
+            ]);
+            
+            $_SESSION['razorpay_order_id'] = $razorpayOrder['id'];
+            $_SESSION['order_id'] = $order_id;
+        }
+
+        // Redirect based on payment method
+        if ($payment_method === 'cod') {
+            header("Location: cod_confirmation.php?order_id=" . $order_id);
+        } elseif ($payment_method === 'netbanking') {
+            header("Location: netbanking_payment.php?order_id=" . $order_id);
+        } else {
+            header("Location: process_payment.php?order_id=" . $order_id);
+        }
         exit();
+
+    } catch (Exception $e) {
+        $conn->rollback();
+        echo "Error: " . $e->getMessage();
     }
 }
 ?>

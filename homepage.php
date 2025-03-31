@@ -189,7 +189,7 @@ $categories = [
     <div class="footer-content">
         <div class="footer-section">
             <h3>About Closetly</h3>
-            <p>Your premier destination for fashion-forward clothing and accessories. We bring you the latest trends with uncompromising quality.</p>
+            <p>Welcome to Closetly, your go-to destination for building a timeless, effortless, and versatile capsule wardrobe.</p>
         </div>
         <div class="footer-section">
             <h3>Quick Links</h3>

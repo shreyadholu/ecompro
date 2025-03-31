@@ -1,11 +1,8 @@
 <?php
 session_start();
 require 'db.php';
-
-// Fetch Products from All Categories
 $categories = ['bags', 'footwear', 'bottomwear', 'dresses', 'topss'];
 $products = [];
-
 foreach ($categories as $category) {
     $sql = "SELECT id, name, price, image, product_id FROM $category";
     $result = $conn->query($sql);
@@ -13,24 +10,18 @@ foreach ($categories as $category) {
         $products[] = $row;
     }
 }
-
 // Handle Add to Cart
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_to_cart'])) {
     $product_id = $_POST['product_id'];
     $name = $_POST['name'];
     $price = $_POST['price'];
     $image = $_POST['image'];
-
     $checkQuery = "SELECT * FROM cart WHERE product_id = '$product_id'";
     $checkResult = $conn->query($checkQuery);
-
     if ($checkResult->num_rows > 0) {
-        // Fetch current quantity
         $row = $checkResult->fetch_assoc();
         $new_quantity = $row['quantity'] + 1;
         $new_total_price = $new_quantity * $price;
-
-        // Correct update query
         $updateQuery = "UPDATE cart SET quantity = $new_quantity, total_price = $new_total_price WHERE product_id = '$product_id'";
         $conn->query($updateQuery);
     } else {
@@ -41,9 +32,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_to_cart'])) {
     header("Location: cart_system.php");
     exit();
 }
-
-
-// Handle Update Cart (Increase/Decrease Quantity)
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_cart'])) {
     $product_id = $_POST['product_id'];
     $action = $_POST['action'];
@@ -58,7 +46,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_cart'])) {
     header("Location: cart_system.php");
     exit();
 }
-
 // Handle Remove from Cart
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['remove_from_cart'])) {
     $product_id = $_POST['product_id'];
@@ -68,7 +55,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['remove_from_cart'])) {
     header("Location: cart_system.php");
     exit();
 }
-
 // Fetch Cart Items
 $cartQuery = "SELECT * FROM cart";
 $cartResult = $conn->query($cartQuery);
@@ -76,16 +62,12 @@ $cartResult = $conn->query($cartQuery);
 if (!$cartResult) {
     die("Query failed: " . $conn->error);
 }
-
 $cart_items = $cartResult->fetch_all(MYSQLI_ASSOC);
-
-// Calculate Total Bill
 $total_price = 0;
 foreach ($cart_items as $item) {
     $total_price += $item['total_price'];
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>

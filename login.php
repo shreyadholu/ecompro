@@ -34,89 +34,188 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Login - Closetly</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
     <style>
         body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
             min-height: 100vh;
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #d9c2ba;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
         }
+
         .login-container {
-            background: #fff;
-            padding: 20px 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            width: 100%;
+            max-width: 450px;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            color: #2c3e50;
             text-align: center;
-            max-width: 400px;
-            width: 100%;
-        }
-        h1 {
-            margin-bottom: 20px;
-            color: #333;
-        }
-        label {
-            display: block;
-            text-align: left;
-            font-weight: bold;
-            margin-bottom: 5px;
-            color: #555;
-        }
-        input {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 14px;
-        }
-        button {
-            background:#9c8481;
-            color: #fff;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        button:hover {
-            background: #4b3b42;
-        }
-        a {
-            color: #4b3b42;
+            margin-bottom: 30px;
+            font-weight: 600;
             text-decoration: none;
+            display: block;
         }
-        a:hover {
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            color: #2c3e50;
+            font-size: 24px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            color: #2c3e50;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .form-control {
+            padding: 12px;
+            border: 1px solid #e1e1e1;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: #2c3e50;
+            box-shadow: 0 0 0 3px rgba(44, 62, 80, 0.1);
+        }
+
+        .login-btn {
+            background-color: #2c3e50;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            width: 100%;
+            font-weight: 500;
+            font-size: 16px;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .login-btn:hover {
+            background-color: #34495e;
+            transform: translateY(-2px);
+        }
+
+        .signup-text {
+            text-align: center;
+            margin-top: 25px;
+            color: #7f8c8d;
+        }
+
+        .signup-text a {
+            color: #2c3e50;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .signup-text a:hover {
+            color: #34495e;
             text-decoration: underline;
         }
-        p {
+
+        .forgot-password {
+            text-align: center;
             margin-top: 15px;
-            font-size: 14px;
         }
-        .error {
-            color: red;
+
+        .forgot-password a {
+            color: #95a5a6;
             font-size: 14px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .forgot-password a:hover {
+            color: #2c3e50;
+        }
+
+        .error {
+            background-color: #fee2e2;
+            border: 1px solid #fca5a5;
+            color: #dc2626;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .input-group {
+            position: relative;
+        }
+
+        .input-group i {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #95a5a6;
         }
     </style>
 </head>
 <body>
     <div class="login-container">
-        <h1>Login to your account</h1>
-        <?php if (isset($error)) { echo "<p class='error'>$error</p>"; } ?>
+        <a href="homepage.php" class="logo">Closetly</a>
+        <h1>Welcome Back</h1>
+        
+        <?php if (isset($error)) { ?>
+            <div class="error">
+                <i class="bi bi-exclamation-circle"></i> <?php echo $error; ?>
+            </div>
+        <?php } ?>
+
         <form method="POST" action="login.php">
-            <label for="username">Username:</label>
-            <input type="text" name="username" required>
+            <div class="form-group">
+                <label for="username" class="form-label">Username</label>
+                <div class="input-group">
+                    <input type="text" class="form-control" id="username" name="username" required>
+                    <i class="bi bi-person"></i>
+                </div>
+            </div>
 
-            <label for="password">Password:</label>
-            <input type="password" name="password" required>
+            <div class="form-group">
+                <label for="password" class="form-label">Password</label>
+                <div class="input-group">
+                    <input type="password" class="form-control" id="password" name="password" required>
+                    <i class="bi bi-lock"></i>
+                </div>
+            </div>
 
-            <button type="submit">Login</button>
+            <button type="submit" class="login-btn">Log In</button>
         </form>
-        <p><b>Don't have an account?</b> <a href="register.php">Register here</a>.</p>
-        <p class="forgot-password"><a href="forgot_password.php">Forgot your password?</a></p>
+
+        <div class="signup-text">
+            Don't have an account? <a href="register.php">Sign up</a>
+        </div>
+
+        <div class="forgot-password">
+            <a href="forgot_password.php">Forgot your password?</a>
+        </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
